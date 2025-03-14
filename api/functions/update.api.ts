@@ -4,8 +4,9 @@ import { MutationFunction } from "@tanstack/react-query";
 import { updateProps } from "@/typeScript/cms.interface";
 
 export const updateProductFn: MutationFunction<updateProps> = async (
-  payload
+  variables: unknown
 ) => {
+  const payload = variables as updateProps;
   if (!payload._id) {
     throw new Error("Product ID is required for update.");
   }
