@@ -276,7 +276,7 @@ export default function List() {
             </Typography>
           )}
 
-          <Box display="flex" justifyContent="center" gap={2} mt={4}>
+          {/* <Box display="flex" justifyContent="center" gap={2} mt={4}>
             <IconButton
               onClick={handlePreviousPage}
               disabled={page === 1}
@@ -294,7 +294,7 @@ export default function List() {
             >
               <ArrowForwardIosIcon />
             </IconButton>
-          </Box>
+          </Box> */}
 
           {modal && (
             <SweetAlertComponent

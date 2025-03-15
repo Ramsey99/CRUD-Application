@@ -1,4 +1,5 @@
 export interface IloginProps {
+  id: string;
   email: string;
   password: string;
   token: string;
@@ -7,6 +8,7 @@ export interface IloginProps {
   data: object;
 }
 export interface IregisterProps {
+  id: string;
   name: string;
   email: string;
   password: string;
