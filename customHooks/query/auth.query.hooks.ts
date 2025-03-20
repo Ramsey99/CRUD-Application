@@ -51,15 +51,19 @@ export const useRegisterMutation = (): UseMutationResult<
   return useMutation({
     mutationFn: registerFn,
     onSuccess: (res) => {
+      console.log("Register Mutation Response:", res);
       if (res?.token) {
         setToken(res.token);
         setUser(res.user);
+        console.log("token:", res.token);
+        console.log("user:", res.user);
         toast.success("Registration successful!");
       } else {
         toast.error("Registration failed! Please try again.");
       }
     },
-    onError: () => {
+    onError: (error: any) => {
+      console.error("Register Mutation Error:", error);
       toast.error("Registration failed. Please try again.");
     },
   });

@@ -22,10 +22,11 @@ export interface IcreateProps {
   description: string;
   category: string;
   user?: Record<string, any>;
+  unknown?: any;
 }
 
 export interface createProps extends IcreateProps {
-  user: IcreateProps;
+  user?: Record<string, any>;
 }
 
 export interface IupdateProps {

@@ -45,11 +45,11 @@ export const fetchProductQuery = (
   });
 };
 
-export const createMutation = (): UseMutationResult<createProps, unknown> => {
+export const createMutation = (): UseMutationResult<createProps, unknown, createProps> => {
   const { queryClient } = useGlobalHooks();
   const cookie = new Cookies();
 
-  return useMutation<createProps, void, unknown, FormData>({
+  return useMutation<createProps, unknown, createProps>({
     mutationFn: createProductFn,
     onSuccess: (res) => {
       const { token, status, user } = res || {};
@@ -63,6 +63,7 @@ export const createMutation = (): UseMutationResult<createProps, unknown> => {
       console.error("Error creating product:", error);
     },
   });
+  
 };
 
 export const deleteMutation = (): UseMutationResult<void, unknown, string> => {

@@ -39,6 +39,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
+import { Product } from "@/typeScript/cms.interface";
 
 export default function List() {
   const [page, setPage] = useState(1);
@@ -51,7 +52,8 @@ export default function List() {
 
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [modal, setModal] = useState(false);
-  const [editProduct, setEditProduct] = useState(null);
+
+  const [editProduct, setEditProduct] = useState<Product | null>(null);
   const router = useRouter();
   const products = data?.products || [];
   const totalCount = data?.totalCount ?? data?.products?.length ?? 0;
@@ -298,6 +300,7 @@ export default function List() {
 
           {modal && (
             <SweetAlertComponent
+              user={{ confirm: () => {}, cancle: () => {}, title: "", subtitle: "", type: "warning", confirmBtnText: "", confirmBtnBsStyle: "" }}
               confirm={handleDelete}
               cancle={() => setModal(false)}
               title="Are You Sure?"
@@ -319,7 +322,7 @@ export default function List() {
                 <TextField
                   fullWidth
                   margin="normal"
-                  label="Title"
+                  label="Name"
                   value={editProduct.name}
                   onChange={(e) =>
                     setEditProduct({ ...editProduct, name: e.target.value })
@@ -352,7 +355,7 @@ export default function List() {
                   label="Price"
                   value={editProduct.price}
                   onChange={(e) =>
-                    setEditProduct({ ...editProduct, price: e.target.value })
+                    setEditProduct({ ...editProduct, price: Number(e.target.value) })
                   }
                 />
               </DialogContent>

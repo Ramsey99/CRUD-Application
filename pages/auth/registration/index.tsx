@@ -43,6 +43,7 @@ const Registration: React.FC = () => {
     mutate(requestData, {
       onSuccess: () => {
         toast.success("Registration successful!", { autoClose: 3000 });
+        console.log("Registration successful!");
         router.push("/auth/verifyOtp");
       },
       onError: (error) => {

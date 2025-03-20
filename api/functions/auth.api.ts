@@ -21,6 +21,7 @@ export const registerFn: MutationFunction<registerProps, unknown> = async (
   payload
 ) => {
   const { data } = await axiosInstance.post(endPoints.auth.register, payload);
+  console.log("Register API Response:", data);
   return data;
 };
 
