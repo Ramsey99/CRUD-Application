@@ -2,13 +2,13 @@ import { listProps, detailsProps } from "@/typeScript/cms.interface";
 import axiosInstance from "../axios/axios";
 import { endPoints } from "../endPoints/endPoints";
 
-export const allProductsAPICall = async (page: number, perPage: number) => {
+export const allProductsAPICall = async () => {
   const res = await axiosInstance.get<{
     status: boolean;
     message: string;
     product: listProps[];
     totalCount: number;
-  }>(endPoints.pages.list, { params: { page, perPage } });
+  }>(endPoints.pages.list);
   console.log("API Response:", res.data);
   return { products: res.data.product, totalCount: res.data.totalCount };
 };

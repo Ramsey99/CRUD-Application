@@ -14,6 +14,7 @@ import {
 } from "../../api/functions/auth.api";
 import { toast } from "react-toastify";
 import { useUserStore } from "@/toolkit/store/store";
+import { useRouter } from "next/router";
 
 export const useLoginMutation = (): UseMutationResult<
   any,
@@ -22,11 +23,13 @@ export const useLoginMutation = (): UseMutationResult<
   unknown
 > => {
   const { setToken, setUser } = useUserStore();
+  const router = useRouter();
 
   return useMutation({
     mutationFn: loginFn,
     onSuccess: (res) => {
       if (res?.token) {
+        Cookies.set("token", res.token, { path: "/", secure: true });
         setToken(res.token);
         setUser(res.user);
         toast.success("Login successful! Welcome back.");
@@ -52,12 +55,12 @@ export const useRegisterMutation = (): UseMutationResult<
     mutationFn: registerFn,
     onSuccess: (res) => {
       console.log("Register Mutation Response:", res);
-      if (res?.token) {
-        setToken(res.token);
+      if (res?.user) {
+        // setToken(res.token);
         setUser(res.user);
-        console.log("token:", res.token);
+        // console.log("token:", res.token);
         console.log("user:", res.user);
-        toast.success("Registration successful!");
+        // toast.success("Registration successful!");
       } else {
         toast.error("Registration failed! Please try again.");
       }
@@ -78,7 +81,7 @@ export const useOtpMutation = (): UseMutationResult<
   return useMutation({
     mutationFn: verifyOtpFn,
     onSuccess: (res) => {
-      if (res?.token) {
+      if (res?.user) {
         Cookies.set("token", res.token, { path: "/", secure: true });
         toast.success("OTP verified successfully.");
       } else {

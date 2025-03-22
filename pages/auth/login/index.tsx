@@ -15,6 +15,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useLoginMutation } from "@/customHooks/query/auth.query.hooks";
 import { loginProps } from "@/typeScript/auth.interface";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
 
 const Login: React.FC = () => {
   const {
@@ -37,7 +38,25 @@ const Login: React.FC = () => {
     const formdata = new FormData();
     formdata.append("email", email);
     formdata.append("password", password);
-    mutate(formData, {});
+    mutate(formData, {
+      onSuccess: (res) => {
+        console.log("Login Mutation Response:", res);
+        if (res?.token) {
+          console.log("Token:", res.token);
+          console.log("User:", res.user);
+          toast.success("Login successful! Welcome back.");
+          router.push("/cms/list");
+        } else {
+          toast.error("Invalid credentials! Please try again.");
+          console.log("Login failed. Please try again.");
+        }
+      },
+      onError: () => {
+        toast.error("Login failed. Please check your credentials and try again.");
+        console.error("Login failed. Please check your credentials and try again.");
+      },
+
+    });
     console.log(formData);
     reset();
     router.push("/cms/list");
@@ -49,6 +68,7 @@ const Login: React.FC = () => {
 
   return (
     <>
+    <ToastContainer position="top-right" autoClose={3000} />
       <Grid2
         container
         justifyContent="center"

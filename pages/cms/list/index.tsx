@@ -23,46 +23,33 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import GridViewIcon from "@mui/icons-material/GridView";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   allProductsQuery,
   deleteMutation,
   updateMutation,
 } from "../../../customHooks/query/cms.query.createhooks";
 import { useQueryClient } from "@tanstack/react-query";
-import SweetAlertComponent from "@/ui/sweetalert";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { Product } from "@/typeScript/cms.interface";
+import SweetAlertComponent from "@/ui/sweetalert";
 
 export default function List() {
-  const [page, setPage] = useState(1);
   const [isTableView, setIsTableView] = useState(false);
-  const perPage = 10;
   const queryClient = useQueryClient();
-  const { data, isLoading, isError } = allProductsQuery(page, perPage);
+  const { data, isLoading, isError } = allProductsQuery(); 
   const { mutate: deleteMutate } = deleteMutation();
   const { mutate: updateMutate, isPending: isUpdating } = updateMutation();
 
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [modal, setModal] = useState(false);
-
   const [editProduct, setEditProduct] = useState<Product | null>(null);
   const router = useRouter();
   const products = data?.products || [];
-  const totalCount = data?.totalCount ?? data?.products?.length ?? 0;
-  const totalPages = Math.ceil(totalCount / perPage);
-  console.log("Total Pages:", totalPages, "Total Count:", totalCount);
-
-  useEffect(() => {
-    console.log("Current Page:", page);
-  }, [page]);
 
   const handleDelete = () => {
     if (deleteId) {
@@ -87,25 +74,6 @@ export default function List() {
       },
       onError: () => toast.error("Failed to update product."),
     });
-  };
-
-  const handleNextPage = () => {
-    console.log(
-      "Next Page Clicked, Current Page:",
-      page,
-      "Total Pages:",
-      totalPages
-    );
-    if (page < totalPages) {
-      setPage((prev) => prev + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    console.log("Previous Page Clicked, Current Page:", page);
-    if (page > 1) {
-      setPage((prev) => prev - 1);
-    }
   };
 
   return (
@@ -278,27 +246,7 @@ export default function List() {
             </Typography>
           )}
 
-          {/* <Box display="flex" justifyContent="center" gap={2} mt={4}>
-            <IconButton
-              onClick={handlePreviousPage}
-              disabled={page === 1}
-              color="primary"
-            >
-              <ArrowBackIosIcon />
-            </IconButton>
-            <Typography variant="h6" align="center">
-              Page {page} of {totalPages}
-            </Typography>
-            <IconButton
-              onClick={handleNextPage}
-              disabled={page >= totalPages}
-              color="primary"
-            >
-              <ArrowForwardIosIcon />
-            </IconButton>
-          </Box> */}
-
-          {modal && (
+{modal && (
             <SweetAlertComponent
               user={{ confirm: () => {}, cancle: () => {}, title: "", subtitle: "", type: "warning", confirmBtnText: "", confirmBtnBsStyle: "" }}
               confirm={handleDelete}
@@ -311,7 +259,7 @@ export default function List() {
             />
           )}
 
-          {editProduct && (
+{editProduct && (
             <Dialog
               open={!!editProduct}
               onClose={() => setEditProduct(null)}

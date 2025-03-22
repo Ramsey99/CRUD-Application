@@ -16,12 +16,11 @@ import {
 } from "../../api/functions/list.api";
 import { listProps } from "@/typeScript/cms.interface";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 
-export const allProductsQuery = (page: number, perPage: number) =>
+export const allProductsQuery = () =>
   useQuery({
-    queryKey: ["LISTPRODUCTS", page, perPage],
-    queryFn: () => allProductsAPICall(page, perPage),
+    queryKey: ["LISTPRODUCTS"],
+    queryFn: () => allProductsAPICall(),
     select: (data) => ({
       products: data.products || [],
       totalCount: data.totalCount || 0,
@@ -72,12 +71,10 @@ export const deleteMutation = (): UseMutationResult<void, unknown, string> => {
   return useMutation<void, unknown, string>({
     mutationFn: deleteProductFn,
     onSuccess: (_, id) => {
-      toast.success("Product deleted successfully!");
       queryClient.invalidateQueries({ queryKey: ["LISTPRODUCTS"] });
     },
     onError: (error) => {
       console.error("Error deleting product:", error);
-      toast.error("Failed to delete product!");
     },
   });
 };
