@@ -41,7 +41,7 @@ import SweetAlertComponent from "@/ui/sweetalert";
 export default function List() {
   const [isTableView, setIsTableView] = useState(false);
   const queryClient = useQueryClient();
-  const { data, isLoading, isError } = allProductsQuery(); 
+  const { data, isLoading, isError } = allProductsQuery();
   const { mutate: deleteMutate } = deleteMutation();
   const { mutate: updateMutate, isPending: isUpdating } = updateMutation();
 
@@ -246,9 +246,8 @@ export default function List() {
             </Typography>
           )}
 
-{modal && (
+          {modal && (
             <SweetAlertComponent
-              user={{ confirm: () => {}, cancle: () => {}, title: "", subtitle: "", type: "warning", confirmBtnText: "", confirmBtnBsStyle: "" }}
               confirm={handleDelete}
               cancle={() => setModal(false)}
               title="Are You Sure?"
@@ -259,7 +258,7 @@ export default function List() {
             />
           )}
 
-{editProduct && (
+          {editProduct && (
             <Dialog
               open={!!editProduct}
               onClose={() => setEditProduct(null)}
@@ -303,7 +302,10 @@ export default function List() {
                   label="Price"
                   value={editProduct.price}
                   onChange={(e) =>
-                    setEditProduct({ ...editProduct, price: Number(e.target.value) })
+                    setEditProduct({
+                      ...editProduct,
+                      price: Number(e.target.value),
+                    })
                   }
                 />
               </DialogContent>

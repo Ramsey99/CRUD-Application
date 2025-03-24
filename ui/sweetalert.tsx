@@ -1,26 +1,28 @@
 import { sweetAlertProps } from "@/typeScript/sweetalert.interface";
 import SweetAlert from "react-bootstrap-sweetalert";
 
-function SweetAlertComponent({
+const SweetAlertComponent: React.FC<sweetAlertProps> = ({
   confirm,
   cancle,
   title,
   subtitle,
   type,
-}: sweetAlertProps) {
+  confirmBtnText,
+  confirmBtnBsStyle,
+}) => {
   return (
     <SweetAlert
       type={type}
       showCancel={true}
-      confirmBtnText="Yes, delete it!"
-      confirmBtnBsStyle="danger"
+      confirmBtnText={confirmBtnText}
+      confirmBtnBsStyle={confirmBtnBsStyle}
       title={title}
       onConfirm={confirm}
       onCancel={cancle}
       focusCancelBtn
-      customButtons={<span>{subtitle}</span>}
-    />
+    >
+    </SweetAlert>
   );
-}
+};
 
 export default SweetAlertComponent;

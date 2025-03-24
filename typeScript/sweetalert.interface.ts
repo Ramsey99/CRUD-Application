@@ -1,4 +1,4 @@
-export interface IsweetAlertProps {
+export interface sweetAlertProps {
   confirm: () => void;
   cancle: () => void;
   title: string;
@@ -6,8 +6,4 @@ export interface IsweetAlertProps {
   type: "success" | "error" | "warning" | "info" | undefined;
   confirmBtnText: string;
   confirmBtnBsStyle: string;
-}
-
-export interface sweetAlertProps extends IsweetAlertProps {
-  user: IsweetAlertProps;
 }

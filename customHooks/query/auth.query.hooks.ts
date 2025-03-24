@@ -80,13 +80,8 @@ export const useOtpMutation = (): UseMutationResult<
 > => {
   return useMutation({
     mutationFn: verifyOtpFn,
-    onSuccess: (res) => {
-      if (res?.user) {
-        Cookies.set("token", res.token, { path: "/", secure: true });
-        toast.success("OTP verified successfully.");
-      } else {
-        toast.error("Invalid OTP! Please try again.");
-      }
+    onSuccess: () => {
+        // toast.success("OTP verified successfully.");
     },
     onError: () => {
       toast.error("OTP verification failed.");
@@ -110,7 +105,7 @@ export const useUpdatePasswordMutation = (): UseMutationResult<
   return useMutation({
     mutationFn: updatePasswordFn,
     onSuccess: () => {
-      toast.success("Password updated successfully.");
+      // toast.success("Password updated successfully.");
     },
     onError: () => {
       toast.error("Failed to update password.");
