@@ -18,9 +18,8 @@ function SweetAlertComponent({
       onConfirm={confirm}
       onCancel={cancle}
       focusCancelBtn
-    >
-      {subtitle}
-    </SweetAlert>
+      customButtons={<span>{subtitle}</span>}
+    />
   );
 }
 
