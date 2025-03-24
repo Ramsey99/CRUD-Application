@@ -1,5 +1,7 @@
-import Cookies from "js-cookie";
+import { Cookies } from "react-cookie";
 import { create } from "zustand";
+
+const cookies = new Cookies();
 
 interface UserState {
   token: string | null;
@@ -10,7 +12,7 @@ interface UserState {
 }
 
 export const useUserStore = create<UserState>((set) => ({
-  token: Cookies.get("token") || null,
+  token: cookies.get("token") || null,
   user:
     typeof window !== "undefined"
       ? JSON.parse(localStorage.getItem("user") || "null")
@@ -18,12 +20,10 @@ export const useUserStore = create<UserState>((set) => ({
 
   setToken: (token) => {
     if (token) {
-      Cookies.set("token", token, {
+      cookies.set("token", token, {
         path: "/",
         secure: process.env.NODE_ENV === "production",
       });
-    } else {
-      Cookies.remove("token");
     }
     console.log("Token Updated:", token);
     set({ token });
@@ -40,8 +40,9 @@ export const useUserStore = create<UserState>((set) => ({
     console.log("User Updated:", user);
     set({ user });
   },
+
   logout: () => {
-    Cookies.remove("token");
+    cookies.remove("token", { path: "/" });
     localStorage.clear();
     set({ token: null, user: null });
   },
