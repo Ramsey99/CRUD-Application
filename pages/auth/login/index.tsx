@@ -16,6 +16,7 @@ import { useLoginMutation } from "@/customHooks/query/auth.query.hooks";
 import { loginProps } from "@/typeScript/auth.interface";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const Login: React.FC = () => {
   const {
@@ -35,16 +36,22 @@ const Login: React.FC = () => {
 
   const onsubmit = async (formData: FieldValues) => {
     const { email, password } = formData as { email: string; password: string };
+    
     const formdata = new FormData();
     formdata.append("email", email);
     formdata.append("password", password);
+    
     mutate(formData, {
       onSuccess: (res) => {
         console.log("Login Mutation Response:", res);
+        
         if (res?.token) {
           console.log("Token:", res.token);
           console.log("User:", res.user);
+          
+          Cookies.set("token", res.token, { expires: 7 });
           toast.success("Login successful! Welcome back.");
+          
           router.push("/cms/list");
         } else {
           toast.error("Invalid credentials! Please try again.");

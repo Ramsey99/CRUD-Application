@@ -32,7 +32,7 @@ export const useLoginMutation = (): UseMutationResult<
         Cookies.set("token", res.token, { path: "/", secure: true });
         setToken(res.token);
         setUser(res.user);
-        toast.success("Login successful! Welcome back.");
+        // toast.success("Login successful! Welcome back.");
       } else {
         toast.error("Invalid credentials! Please try again.");
       }

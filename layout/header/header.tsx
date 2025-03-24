@@ -16,9 +16,10 @@ import {
 } from "@mui/material";
 import { useUserStore } from "@/toolkit/store/store";
 import { useCookies } from "react-cookie";
-import toast from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
+import Cookies from "js-cookie";
 
 const pages = [
   { name: "Create Product", path: "/cms/createProduct" },
@@ -71,12 +72,15 @@ function ResponsiveAppBar() {
   };
 
   const handleLogout = () => {
+    Cookies.remove("token");
     removeCookie("token", { path: "/" });
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     useUserStore.getState().logout();
     toast.success("Logout Successfully");
-    router.push("/auth/login");
+    setTimeout(() => {
+      router.push("/auth/login");
+    }, 1000);
   };
 
   useEffect(() => {
@@ -101,6 +105,7 @@ function ResponsiveAppBar() {
         paddingY: 1,
       }}
     >
+    <ToastContainer position="top-right" autoClose={3000} />
       <Container maxWidth="xl">
         <Toolbar>
           <motion.div
