@@ -27,7 +27,7 @@ const ProductCreate: React.FC = () => {
   const onSubmit = async (formData: createProps) => {
     const { name, price, description, category } = formData;
     mutate(
-      { name, price, category, description },
+      { name, price, category, description, token: "", message: "", status: 0 },
       {
         onSuccess: () => {
           reset();
