@@ -29,7 +29,7 @@ export const useLoginMutation = (): UseMutationResult<
     mutationFn: loginFn,
     onSuccess: (res) => {
       if (res?.token) {
-        Cookies.set("token", res.token, { path: "/", secure: true });
+        Cookies.set("token", res.token, { expires: 7 });
         setToken(res.token);
         setUser(res.user);
         // toast.success("Login successful! Welcome back.");

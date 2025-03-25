@@ -52,7 +52,9 @@ const Login: React.FC = () => {
           Cookies.set("token", res.token, { expires: 7 });
           toast.success("Login successful! Welcome back.");
           
-          router.push("/cms/list");
+          setTimeout(() => {
+            router.replace("/cms/list");
+          }, 500);
         } else {
           toast.error("Invalid credentials! Please try again.");
           console.log("Login failed. Please try again.");
@@ -66,7 +68,7 @@ const Login: React.FC = () => {
     });
     console.log(formData);
     reset();
-    router.push("/cms/list");
+    // router.push("/cms/list");
   };
 
   const handleLoginError = () => {
