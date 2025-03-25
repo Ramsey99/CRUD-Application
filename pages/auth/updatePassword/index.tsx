@@ -51,7 +51,9 @@ const UpdatePassword: React.FC = () => {
     mutate(requestData, {
       onSuccess: () => {
         toast.success("Password updated successfully! Please log in.");
-        router.push("/auth/login");
+        setTimeout(() => {
+          router.push("/auth/login");
+        }, 1000); 
       },
       onError: (error) => {
         console.error("Update Password Error:", error);

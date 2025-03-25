@@ -37,7 +37,9 @@ const VerifyOtp: React.FC = () => {
     mutate(requestData, {
       onSuccess: () => {
         toast.success("OTP verified successfully!");
-        router.push("/auth/login");
+        setTimeout(() => {
+          router.push("/auth/login");
+        }, 1000); 
       },
       onError: () => {
         toast.error("Invalid OTP. Please try again.");
