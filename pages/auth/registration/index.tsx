@@ -42,8 +42,8 @@ const Registration: React.FC = () => {
 
     mutate(requestData, {
       onSuccess: () => {
-        toast.success("Registration successful!");
-        console.log("Registration successful!");
+        toast.success("Registration successful. Please check your email to verify OTP");
+        console.log("Registration successful.");
         router.push("/auth/verifyOtp");
       },
       
@@ -55,175 +55,89 @@ const Registration: React.FC = () => {
   };
 
   return (
-    <>
-      <ToastContainer position="top-right" autoClose={3000} />
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        sx={{
-          minHeight: "100vh",
-          background: "linear-gradient(to right, #141E30, #243B55)",
-          padding: 2,
-        }}
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 p-4">
+      <ToastContainer position="top-center" autoClose={3000} />
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="bg-white/10 backdrop-blur-md rounded-lg shadow-lg p-6 w-full max-w-md border border-gray-500/30"
       >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-        >
-          <Box
-            component="form"
-            sx={{
-              width: "100%",
-              maxWidth: 380,
-              backgroundColor: "rgba(255, 255, 255, 0.15)",
-              borderRadius: 2,
-              boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)",
-              padding: 4,
-              backdropFilter: "blur(10px)",
-              color: "#fff",
-            }}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <Typography
-              variant="h4"
-              align="center"
-              fontWeight="bold"
-              sx={{ mb: 3 }}
-            >
-              Sign Up
-            </Typography>
+        <h2 className="text-3xl font-bold text-center text-white mb-6">
+          Create Account
+        </h2>
 
-            <TextField
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label className="text-white">Full Name</label>
+            <input
               {...register("name", { required: "Name is required" })}
-              label="Full Name"
-              fullWidth
-              error={!!errors.name}
-              helperText={errors.name?.message}
-              margin="normal"
-              InputLabelProps={{ style: { color: "#fff" } }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": { borderColor: "#fff" },
-                  "&:hover fieldset": { borderColor: "#00bcd4" },
-                  "&.Mui-focused fieldset": { borderColor: "#00bcd4" },
-                },
-                input: { color: "#fff" },
-              }}
+              className="w-full bg-transparent border border-gray-500 text-white rounded-md px-4 py-2 focus:ring-2 focus:ring-cyan-400"
+              placeholder="John Doe"
             />
+            {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+          </div>
 
-            <Box sx={{ position: "relative", width: "100%" }}>
-              <TextField
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Invalid email format",
-                  },
-                })}
-                label="Email"
-                type="email"
-                fullWidth
-                error={!!errors.email}
-                helperText={errors.email?.message}
-                margin="normal"
-                InputLabelProps={{ style: { color: "#fff" } }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#fff" },
-                    "&:hover fieldset": { borderColor: "#00bcd4" },
-                    "&.Mui-focused fieldset": { borderColor: "#00bcd4" },
-                  },
-                  input: { color: "#fff" },
-                }}
-              />
-              <EmailOutlinedIcon
-                sx={{
-                  position: "absolute",
-                  right: 10,
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  color: "#00bcd4",
-                }}
-              />
-            </Box>
+          <div>
+            <label className="text-white">Email</label>
+            <input
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email format",
+                },
+              })}
+              className="w-full bg-transparent border border-gray-500 text-white rounded-md px-4 py-2 focus:ring-2 focus:ring-cyan-400"
+              placeholder="example@email.com"
+            />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+          </div>
 
-            <Box sx={{ position: "relative", width: "100%" }}>
-              <TextField
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters",
-                  },
-                })}
-                label="Password"
-                type={showPassword ? "text" : "password"}
-                autoComplete="new-password"
-                fullWidth
-                error={!!errors.password}
-                helperText={errors.password?.message}
-                margin="normal"
-                InputLabelProps={{ style: { color: "#fff" } }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#fff" },
-                    "&:hover fieldset": { borderColor: "#00bcd4" },
-                    "&.Mui-focused fieldset": { borderColor: "#00bcd4" },
-                  },
-                  input: { color: "#fff" },
-                }}
-              />
-              <IconButton
+          <div className="relative">
+            <label className="text-white">Password</label>
+            <input
+              {...register("password", {
+                required: "Password is required",
+                minLength: { value: 8, message: "At least 8 characters required" },
+              })}
+              type={showPassword ? "text" : "password"}
+              className="w-full bg-transparent border border-gray-500 text-white rounded-md px-4 py-2 focus:ring-2 focus:ring-cyan-400"
+              placeholder="••••••••"
+            />
+            <IconButton
                 onClick={togglePasswordVisibility}
                 sx={{
                   position: "absolute",
                   right: 10,
-                  top: "50%",
+                  top: "70%",
                   transform: "translateY(-50%)",
                   color: "#00bcd4",
                 }}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
-            </Box>
+            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+          </div>
 
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{
-                mt: 3,
-                p: 1.5,
-                fontWeight: "bold",
-                background: "#00bcd4",
-                "&:hover": { background: "#008ba3" },
-              }}
-              disabled={isPending}
-            >
-              {isPending ? (
-                <CircularProgress size={20} color="inherit" />
-              ) : (
-                "Sign Up"
-              )}
-            </Button>
+          <button
+            type="submit"
+            className="w-full py-2 mt-4 bg-cyan-400 hover:bg-cyan-500 text-black font-bold rounded-md transition duration-200"
+          >
+            Sign Up
+          </button>
 
-            <Typography align="center" sx={{ marginTop: 2 }}>
-              Already have an account?{" "}
-              <Link
-                href="/auth/login"
-                passHref
-                style={{ color: "#00bcd4", textDecoration: "none" }}
-              >
-                Sign In
-              </Link>
-            </Typography>
-          </Box>
-        </motion.div>
-      </Grid>
-    </>
+          <p className="text-center text-white mt-3">
+            Already have an account?{" "}
+            <a href="/auth/login" className="text-cyan-400 hover:underline">
+              Sign In
+            </a>
+          </p>
+        </form>
+      </motion.div>
+    </div>
   );
 };
 

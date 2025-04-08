@@ -12,7 +12,7 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
     "/auth/updatePassword",
   ];
   const shouldShowHeader = !hideHeaderRoutes.includes(router.pathname);
-  const hideFooterRoutes = ["/auth/profile"];
+  const hideFooterRoutes = ["/auth/profile", "/"];
   const shouldShowFooter = !hideFooterRoutes.includes(router.pathname);
 
   return (

@@ -39,94 +39,98 @@ const ProductCreate: React.FC = () => {
 
   return (
     <>
-      <ToastContainer position="top-right" autoClose={3000} />
-      <Grid2
-        container
-        justifyContent="center"
-        alignItems="center"
-        style={{
-          minHeight: "100vh",
-          background: "linear-gradient(to right,#d1c4e9,rgb(238, 206, 254))",
-        }}
-      >
-        <Paper
-          style={{
-            width: "100%",
-            maxWidth: 400,
-            padding: 25,
-            background: "#f3e5f5",
-            borderRadius: 15,
-            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.8)",
-          }}
-        >
-          <Typography
-            variant="h5"
-            align="center"
-            gutterBottom
-            style={{ marginBottom: 20 }}
-          >
+      <ToastContainer position="top-center" autoClose={3000} />
+      <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-300 to-blue-100">
+        <div className="w-full max-w-md p-8 bg-white/90 backdrop-blur-lg rounded-lg shadow-xl">
+          <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
             Create New Product
-          </Typography>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <TextField
-              {...register("name", { required: "Name is required" })}
-              label="Name"
-              placeholder="Enter product name"
-              fullWidth
-              margin="normal"
-              error={!!errors.name}
-              helperText={errors.name?.message}
-            />
-            <TextField
-              {...register("price", {
-                required: "Price is required",
-                valueAsNumber: true,
-              })}
-              label="Price"
-              placeholder="Enter product price"
-              fullWidth
-              margin="normal"
-              type="number"
-              error={!!errors.price}
-              helperText={errors.price?.message}
-            />
-            <TextField
-              {...register("category", {
-                required: "Category is required",
-              })}
-              label="Category"
-              placeholder="Enter product category"
-              fullWidth
-              margin="normal"
-              error={!!errors.category}
-              helperText={errors.category?.message}
-            />
-            <TextField
-              {...register("description", {
-                required: "Description is required",
-              })}
-              label="Description"
-              placeholder="Enter product description"
-              fullWidth
-              margin="normal"
-              multiline
-              rows={4}
-              error={!!errors.description}
-              helperText={errors.description?.message}
-            />
+          </h2>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div>
+              <label className="block text-gray-700 font-medium">Name</label>
+              <input
+                {...register("name", { required: "Name is required" })}
+                placeholder="Enter product name"
+                className={`w-full p-2 border ${
+                  errors.name ? "border-red-500" : "border-gray-300"
+                } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              />
+              {errors.name && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.name.message}
+                </p>
+              )}
+            </div>
 
-            <Button
-              variant="contained"
+            <div>
+              <label className="block text-gray-700 font-medium">Price</label>
+              <input
+                {...register("price", {
+                  required: "Price is required",
+                  valueAsNumber: true,
+                })}
+                type="number"
+                placeholder="Enter product price"
+                className={`w-full p-2 border ${
+                  errors.price ? "border-red-500" : "border-gray-300"
+                } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              />
+              {errors.price && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.price.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-gray-700 font-medium">
+                Category
+              </label>
+              <input
+                {...register("category", { required: "Category is required" })}
+                placeholder="Enter product category"
+                className={`w-full p-2 border ${
+                  errors.category ? "border-red-500" : "border-gray-300"
+                } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              />
+              {errors.category && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.category.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-gray-700 font-medium">
+                Description
+              </label>
+              <textarea
+                {...register("description", {
+                  required: "Description is required",
+                })}
+                placeholder="Enter product description"
+                rows={4}
+                className={`w-full p-2 border ${
+                  errors.description ? "border-red-500" : "border-gray-300"
+                } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              />
+              {errors.description && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.description.message}
+                </p>
+              )}
+            </div>
+
+            <button
               type="submit"
-              fullWidth
-              sx={{ mt: 3, fontSize: 18, color: "#000" }}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-all disabled:opacity-50"
               disabled={isPending}
             >
-              <b>{isPending ? "Creating..." : "Create Product"}</b>
-            </Button>
+              {isPending ? "Creating..." : "Create Product"}
+            </button>
           </form>
-        </Paper>
-      </Grid2>
+        </div>
+      </div>
     </>
   );
 };

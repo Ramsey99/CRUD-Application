@@ -79,7 +79,7 @@ function ResponsiveAppBar() {
     useUserStore.getState().logout();
     toast.success("Logout Successfully");
     setTimeout(() => {
-      router.push("/auth/login");
+      router.push("/");
     }, 1000);
   };
 
@@ -128,7 +128,7 @@ function ResponsiveAppBar() {
                 fontSize: "1.5rem",
               }}
             >
-              Market
+              SnapMart
             </Typography>
           </motion.div>
 

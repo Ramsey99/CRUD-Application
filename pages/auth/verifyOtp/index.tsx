@@ -48,118 +48,59 @@ const VerifyOtp: React.FC = () => {
   };
 
   return (
-    <>
-      <ToastContainer position="top-right" autoClose={3000} />
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        sx={{
-          minHeight: "100vh",
-          background: "linear-gradient(to right, #141E30, #243B55)",
-          padding: 2,
-        }}
-      >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 p-4">
+    <ToastContainer position="top-center" autoClose={3000} />
+
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="bg-white/10 backdrop-blur-md rounded-lg shadow-lg p-6 w-full max-w-md border border-gray-500/30"
+    >
+      <h2 className="text-3xl font-bold text-center text-white mb-6">
+        Verify OTP
+      </h2>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div>
+          <label className="text-white">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full bg-transparent border border-gray-500 text-white rounded-md px-4 py-2 focus:ring-2 focus:ring-cyan-400"
+            placeholder="example@email.com"
+          />
+        </div>
+
+        <div>
+          <label className="text-white">Enter OTP</label>
+          <input
+            {...register("otp", { required: "OTP is required" })}
+            className="w-full bg-transparent border border-gray-500 text-white rounded-md px-4 py-2 focus:ring-2 focus:ring-cyan-400"
+            placeholder="123456"
+          />
+          {errors.otp && <p className="text-red-500 text-sm">{errors.otp.message}</p>}
+        </div>
+
+        <button
+          type="submit"
+          className="w-full py-2 mt-4 bg-cyan-400 hover:bg-cyan-500 text-black font-bold rounded-md transition duration-200"
+          disabled={isPending}
         >
-          <Box
-            component="form"
-            sx={{
-              width: "100%",
-              maxWidth: 380,
-              backgroundColor: "rgba(255, 255, 255, 0.15)",
-              borderRadius: 2,
-              boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)",
-              padding: 4,
-              backdropFilter: "blur(10px)",
-              color: "#fff",
-            }}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <Typography
-              variant="h4"
-              align="center"
-              fontWeight="bold"
-              sx={{ mb: 3 }}
-            >
-              Verify OTP
-            </Typography>
+          {isPending ? "Verifying..." : "Verify OTP"}
+        </button>
 
-            <TextField
-              label="Email"
-              type="email"
-              fullWidth
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              margin="normal"
-              InputLabelProps={{ style: { color: "#fff" } }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": { borderColor: "#fff" },
-                  "&:hover fieldset": { borderColor: "#00bcd4" },
-                  "&.Mui-focused fieldset": { borderColor: "#00bcd4" },
-                },
-                input: { color: "#fff" },
-              }}
-            />
-
-            <TextField
-              {...register("otp", {
-                required: "OTP is required",
-              })}
-              label="Enter OTP"
-              fullWidth
-              error={!!errors.otp}
-              helperText={errors.otp?.message}
-              margin="normal"
-              InputLabelProps={{ style: { color: "#fff" } }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": { borderColor: "#fff" },
-                  "&:hover fieldset": { borderColor: "#00bcd4" },
-                  "&.Mui-focused fieldset": { borderColor: "#00bcd4" },
-                },
-                input: { color: "#fff" },
-              }}
-            />
-
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{
-                mt: 3,
-                p: 1.5,
-                fontWeight: "bold",
-                background: "#00bcd4",
-                "&:hover": { background: "#008ba3" },
-              }}
-              disabled={isPending}
-            >
-              {isPending ? (
-                <CircularProgress size={20} color="inherit" />
-              ) : (
-                "Verify OTP"
-              )}
-            </Button>
-
-            <Typography align="center" sx={{ marginTop: 2 }}>
-              Back to{" "}
-              <a
-                href="/auth/login"
-                style={{ color: "#00bcd4", textDecoration: "none" }}
-              >
-                Login
-              </a>
-            </Typography>
-          </Box>
-        </motion.div>
-      </Grid>
-    </>
+        <p className="text-center text-white mt-3">
+          Back to{" "}
+          <a href="/auth/login" className="text-cyan-400 hover:underline">
+            Login
+          </a>
+        </p>
+      </form>
+    </motion.div>
+  </div>
   );
 };
 

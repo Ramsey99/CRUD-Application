@@ -78,172 +78,138 @@ export default function List() {
 
   return (
     <>
-      <ToastContainer position="top-right" autoClose={3000} />
-      <Box sx={{ minHeight: "100vh", background: "#f5f5f5", padding: 4 }}>
-        <Typography variant="h4" align="center" gutterBottom fontWeight="bold">
+      <ToastContainer position="top-center" autoClose={3000} />
+      <div className="min-h-screen bg-gradient-to-r from-blue-300 to-blue-100 p-6">
+        <h2 className="text-3xl font-bold text-center text-black mb-6">
           Product List
-        </Typography>
+        </h2>
 
-        <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
-          <IconButton
+        <div className="flex justify-end mb-4">
+          <button
             onClick={() => setIsTableView(!isTableView)}
-            color="primary"
+            className="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md transition-all"
           >
             {isTableView ? <GridViewIcon /> : <ViewListIcon />}
-          </IconButton>
-        </Box>
+          </button>
+        </div>
 
-        <Box sx={{ maxWidth: "1300px", margin: "0 auto", padding: "0 16px" }}>
+        <div className="max-w-6xl mx-auto">
           {isLoading ? (
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              height="100vh"
-            >
-              <CircularProgress />
-            </Box>
+            <div className="flex justify-center items-center h-80">
+              <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
           ) : isError ? (
-            <Typography align="center" variant="h6" color="error">
+            <p className="text-center text-red-500 font-medium">
               Failed to load products.
-            </Typography>
+            </p>
           ) : products.length > 0 ? (
             isTableView ? (
-              <TableContainer component={Paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Image</TableCell>
-                      <TableCell>Name</TableCell>
-                      <TableCell>Category</TableCell>
-                      <TableCell>Price</TableCell>
-                      <TableCell>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
+              <div className="overflow-x-auto bg-white shadow-md rounded-lg">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="bg-blue-600 text-white">
+                      <th className="p-3">Image</th>
+                      <th className="p-3">Name</th>
+                      <th className="p-3">Category</th>
+                      <th className="p-3">Price</th>
+                      <th className="p-3">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {products.map((product) => (
-                      <TableRow key={product._id}>
-                        <TableCell>
+                      <tr key={product._id} className="text-center border-b">
+                        <td className="p-3">
                           <img
                             src={product.image || "/productImg.jpg"}
                             alt={product.name}
-                            width={50}
+                            className="w-12 h-12 rounded-md mx-auto"
                           />
-                        </TableCell>
-                        <TableCell>{product.name}</TableCell>
-                        <TableCell>{product.category}</TableCell>
-                        <TableCell>${product.price}</TableCell>
-                        <TableCell>
-                          <IconButton
-                            color="error"
+                        </td>
+                        <td className="p-3">{product.name}</td>
+                        <td className="p-3">{product.category}</td>
+                        <td className="p-3">${product.price}</td>
+                        <td className="p-3 flex justify-center gap-2">
+                          <button
+                            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md shadow"
                             onClick={() => {
                               setDeleteId(product._id);
                               setModal(true);
                             }}
                           >
                             <DeleteIcon />
-                          </IconButton>
-                          <IconButton
-                            color="primary"
+                          </button>
+                          <button
+                            className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md shadow"
                             onClick={() => setEditProduct(product)}
                           >
                             <EditIcon />
-                          </IconButton>
-                          <Button
-                            variant="contained"
-                            color="primary"
+                          </button>
+                          <button
+                            className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md shadow"
                             onClick={() =>
                               router.push(`/cms/details/${product._id}`)
                             }
                           >
-                            View Details
-                          </Button>
-                        </TableCell>
-                      </TableRow>
+                            View
+                          </button>
+                        </td>
+                      </tr>
                     ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                  </tbody>
+                </table>
+              </div>
             ) : (
-              <Grid container spacing={4}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.map((product) => (
-                  <Grid item xs={12} sm={6} md={4} key={product._id}>
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <Card
-                        sx={{
-                          background: "#ffffff",
-                          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-                          borderRadius: 3,
-                        }}
-                      >
-                        <CardMedia
-                          component="img"
-                          height="200"
-                          image={product.image || "/productImg.jpg"}
-                          alt={product.name}
-                        />
-                        <CardContent>
-                          <Typography
-                            gutterBottom
-                            variant="h6"
-                            align="center"
-                            fontWeight="bold"
-                          >
-                            {product.name}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            align="center"
-                          >
-                            ${product.price}
-                          </Typography>
-                        </CardContent>
-                        <Box
-                          display="flex"
-                          justifyContent="center"
-                          gap={2}
-                          p={2}
+                  <motion.div
+                    key={product._id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-all"
+                  >
+                    <img
+                      src={product.image || "/productImg.jpg"}
+                      alt={product.name}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-4">
+                      <h3 className="text-lg font-semibold text-gray-800">
+                        {product.name}
+                      </h3>
+                      <p className="text-gray-600">${product.price}</p>
+                      <div className="flex justify-between mt-4">
+                        <button
+                          className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md"
+                          onClick={() => {
+                            setDeleteId(product._id);
+                            setModal(true);
+                          }}
                         >
-                          <IconButton
-                            color="error"
-                            onClick={() => {
-                              setDeleteId(product._id);
-                              setModal(true);
-                            }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                          <IconButton
-                            color="primary"
-                            onClick={() => setEditProduct(product)}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() =>
-                              router.push(`/cms/details/${product._id}`)
-                            }
-                          >
-                            View Details
-                          </Button>
-                        </Box>
-                      </Card>
-                    </motion.div>
-                  </Grid>
+                          <DeleteIcon />
+                        </button>
+                        <button
+                          className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md"
+                          onClick={() => setEditProduct(product)}
+                        >
+                          <EditIcon />
+                        </button>
+                        <button
+                          className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md"
+                          onClick={() =>
+                            router.push(`/cms/details/${product._id}`)
+                          }
+                        >
+                          View
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
                 ))}
-              </Grid>
+              </div>
             )
           ) : (
-            <Typography align="center" width="100%">
-              No products found.
-            </Typography>
+            <p className="text-center text-gray-500">No products found.</p>
           )}
 
           {modal && (
@@ -259,26 +225,22 @@ export default function List() {
           )}
 
           {editProduct && (
-            <Dialog
-              open={!!editProduct}
-              onClose={() => setEditProduct(null)}
-              fullWidth
-            >
-              <DialogTitle>Edit Product</DialogTitle>
-              <DialogContent>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  label="Name"
+            <div className="fixed inset-0 flex items-center justify-center bg-black/50">
+              <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                <h2 className="text-xl font-bold text-gray-800">
+                  Edit Product
+                </h2>
+                <input
+                  className="w-full bg-gray-100 p-2 rounded-md mt-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Name"
                   value={editProduct.name}
                   onChange={(e) =>
                     setEditProduct({ ...editProduct, name: e.target.value })
                   }
                 />
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  label="Description"
+                <input
+                  className="w-full bg-gray-100 p-2 rounded-md mt-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Description"
                   value={editProduct.description}
                   onChange={(e) =>
                     setEditProduct({
@@ -287,19 +249,17 @@ export default function List() {
                     })
                   }
                 />
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  label="Category"
+                <input
+                  className="w-full bg-gray-100 p-2 rounded-md mt-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Category"
                   value={editProduct.category}
                   onChange={(e) =>
                     setEditProduct({ ...editProduct, category: e.target.value })
                   }
                 />
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  label="Price"
+                <input
+                  className="w-full bg-gray-100 p-2 rounded-md mt-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Price"
                   value={editProduct.price}
                   onChange={(e) =>
                     setEditProduct({
@@ -308,23 +268,26 @@ export default function List() {
                     })
                   }
                 />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => setEditProduct(null)} color="secondary">
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleUpdate}
-                  color="primary"
-                  disabled={isUpdating}
-                >
-                  {isUpdating ? "Updating..." : "Save"}
-                </Button>
-              </DialogActions>
-            </Dialog>
+                <div className="flex justify-end space-x-3 mt-4">
+                  <button
+                    onClick={() => setEditProduct(null)}
+                    className="px-3 py-1 bg-gray-400 hover:bg-gray-500 text-white rounded-md"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleUpdate}
+                    className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
+                    disabled={isUpdating}
+                  >
+                    {isUpdating ? "Updating..." : "Save"}
+                  </button>
+                </div>
+              </div>
+            </div>
           )}
-        </Box>
-      </Box>
+        </div>
+      </div>
     </>
   );
 }
